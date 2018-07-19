@@ -211,9 +211,9 @@ function repeatScript() {
 		var countDown = settings.repeatScript.slice(0, -1)*multiplier/60 // countDown is the number of minutes remaining until the script restarts
 		var multiplier = multipliers[String(settings.repeatScript.slice(-1)).toLowerCase()] // This is the multiplier selected based on that the user states, eg 60 if they put m at the end
 		console.log('\u001b[41mRepeating for '+settings.repeatScript+' or '+settings.repeatScript.slice(0, -1)*multiplier+' Seconds.\u001b[0m');
-		start(); // Start the script for the first time
+		module.exports.start(); // Start the script for the first time
 		setInterval(() => { // Set a repeating function that is called every 1000 miliseconds times the number of seconds the user picked
-			start();
+			module.exports.start();
 		}, settings.repeatScript.slice(0, -1)*multiplier*1000); // Re above
 		setInterval(() => { // Set a repeating function that is called every 60 seconds to notify the user how long until a script run
 		console.log(countDown+' Minutes until script restarts...');
@@ -224,11 +224,11 @@ function repeatScript() {
 		}
 		}, 60*1000);
 	} else {
-		start();
+		module.exports.start();
 	}
 }
 
-function start() { // This is the main function that triggeres everything else in the script
+module.exports.start = function start() { // This is the main function that triggeres everything else in the script
 	checkAuth().then(constructCookie).then(saveSettings).then(checkSubscriptions).then(parseKey).then(logEpisodeCount).then(getVideos)
 }
 
